@@ -14,6 +14,7 @@
 <script setup>
 import axios from "axios"
 import {ref} from "vue"
+import router from "@/router/index.js";
 
 const user = ref({
   username: '',
@@ -23,11 +24,11 @@ const user = ref({
 function insert() {
   axios.post('/api/user', user.value)
       .then(response => {
-        console.log('User added successfully', response);
-        this.$router.push('/userlists');
+        console.log('User added successfully');
+        router.push('/list');
       })
       .catch(error => {
-        console.error('Error adding user', error);
+        console.error('Error adding user', error.response.data);
       });
 }
 

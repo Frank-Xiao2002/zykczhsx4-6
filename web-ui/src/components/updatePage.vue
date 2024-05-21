@@ -1,20 +1,26 @@
 <template>
   <div class="update-form">
-    <form @submit.prevent="update">
-      <label for="id">ID：</label>
-      <input id="id" class="form-control" type="text" v-model="user.id" readonly="readonly"><br>
-      <label for="username">用户名：</label>
-      <input id="username" class="form-control" type="text" v-model="user.username"><br>
-      <label for="password">密码：</label>
-      <input id="password" class="form-control" type="text" v-model="user.password"><br>
-      <button class="btn btn-primary btn-lg btn-block" type="submit" @click="update">提交</button>
-    </form>
+    <el-form @submit.prevent="update" :label-position="'top'"
+             label-width="auto" :model="user">
+      <el-form-item label="ID" for="id">
+        <el-input id="id" type="text" v-model="user.id" readonly="readonly"/>
+      </el-form-item>
+      <el-form-item label="Username">
+        <el-input id="username" type="text" v-model="user.username"/>
+      </el-form-item>
+      <el-form-item label="password">
+        <el-input id="password" type="text" v-model="user.password"/>
+      </el-form-item>
+      <el-button type="success" round @click="update">Save</el-button>
+    </el-form>
   </div>
 </template>
 
 <script setup>
 import {onMounted, ref} from "vue";
 import axios from "axios";
+import router from "@/router/index.js";
+import {useRoute} from "vue-router";
 
 
 const user = ref({
@@ -23,26 +29,25 @@ const user = ref({
   password: ''
 })
 
-defineProps({
-  id: String,
-  name: String,
-  password: String
-})
+const route = useRoute()
 
 onMounted(() => {
-  user.id = route.params.id;
-  user.username = route.params.username;
-  user.password = route.params.password;
+  axios.get('/api/user/' + route.params.id)
+      .then(response => {
+        user.value = response.data;
+      })
+      .catch(error => {
+        console.error('Error fetching user:', error);
+      });
 })
 
 function update() {
-  axios.put('api/user', this.user)
+  axios.put('api/user', user.value)
       .then(response => {
-        console.log('User updated successfully', response);
-        this.$router.push('/userlists');
+        router.push('/list');
       })
       .catch(error => {
-        console.error('Update failed:', error);
+        console.error('Update failed:', error.response.data);
       });
 }
 

@@ -18,6 +18,7 @@
 <script setup>
 import axios from 'axios';
 import {ref} from "vue";
+import router from "@/router/index.js";
 
 const username = ref('')
 const password = ref('')
@@ -28,12 +29,12 @@ function userLogin() {
   errorMsg.value = '';
   submitAttempted.value = true;
 
-  axios.post('/users/login', {
+  axios.post('/api/login', {
     username: username.value,
     password: password.value
   }).then(response => {
     console.log("登录成功", response);
-    this.$router.push("/userlists");
+    router.push("/list");
   }).catch(error => {
     console.error(error.response.data)
     errorMsg.value = "登录失败: " + (error.response.data || "服务器错误");

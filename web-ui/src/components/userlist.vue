@@ -1,31 +1,43 @@
 <template>
-  <div>
-    <div class="userlistheader">
-      <router-link to="/insertPage" class="btn btn-add-user">添加用户</router-link>
-    </div>
-    <div class="table-container">
-      <table class="table table-bordered table-hover">
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Username</th>
-            <th>Password</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="user in users" :key="user.id">
-            <td>{{ user.id }}</td>
-            <td>{{ user.username }}</td>
-            <td>{{ user.password }}</td>
-            <td>
-              <button class="btn btn-primary" @click="goToUpdatePage(user)">更改</button>
-              <button class="btn btn-danger" @click="deleteUser(user.id)">删除</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <el-button type="success" size="large">
+    <RouterLink to="/insert">Add User</RouterLink>
+  </el-button>
+
+  <!--TODO finish operation buttons-->
+  <el-table :data="users" stripe style="width: 100%" border>
+    <el-table-column prop="id" label="ID"/>
+    <el-table-column prop="username" label="Username"/>
+    <el-table-column prop="password" label="Password"/>
+    <el-table-column label="Operation">
+      <template #default="scope">
+        <el-button link type="primary" @click.prevent="goToUpdatePage()">Change</el-button>
+        <el-button link type="primary" @click.prevent="deleteUser(id)">Delete</el-button>
+      </template>
+    </el-table-column>
+  </el-table>
+
+  <div class="table-container">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Username</th>
+          <th>Password</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="user in users" :key="user.id">
+          <td>{{ user.id }}</td>
+          <td>{{ user.username }}</td>
+          <td>{{ user.password }}</td>
+          <td>
+            <button class="btn btn-primary" @click="goToUpdatePage(user.id)">更改</button>
+            <button class="btn btn-danger" @click="deleteUser(user.id)">删除</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -36,7 +48,7 @@ import router from "@/router/index.js";
 
 const users = ref([])
 
-const fetchUsers = function () {
+function fetchUsers() {
   axios.get('/api/user') // 使用后端提供的API路径
       .then(response => {
         users.value = response.data; // 假设响应数据是直接的用户列表
@@ -44,7 +56,7 @@ const fetchUsers = function () {
       .catch(error => {
         console.error('Error fetching users:', error);
       });
-};
+}
 
 function deleteUser(id) {
   axios.delete('/api/user/' + id) // 使用后端提供的API路径
@@ -56,13 +68,11 @@ function deleteUser(id) {
       });
 }
 
-function goToUpdatePage(user) {
+function goToUpdatePage(id) {
   router.push({
     name: 'Update',
     params: {
-      id: user.id,
-      username: user.username,
-      password: user.password
+      id: id,
     }
   });
 }

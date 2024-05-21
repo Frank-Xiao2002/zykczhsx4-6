@@ -10,22 +10,20 @@ const router = createRouter({
     routes: [
         {
             path: '/',
-            name: 'UserLogin',
             component: userLogin
         },
         {
             path: '/list',
-            name: 'UserList',
             component: userList
         },
         {
-            path: '/update',
+            path: '/update/:id',
             name: 'Update',
             component: updatePage,
+            props: true
         },
         {
-            path: '/insertPage',
-            name: 'Insert',
+            path: '/insert',
             component: insertPage
         }
     ],
