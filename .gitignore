@@ -172,8 +172,6 @@ local.properties
 
 docs/_book
 
-test/
-
 ### Node template
 # Logs
 logs

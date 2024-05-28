@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="UserApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+    <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+    <module name="user-service" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="dev.xxj.user.UserApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+      <option name="ConnectionRunnerForConfigurationId">
+        <option name="envFile" value="C:\Users\frank\IdeaProjects\zykczhsx4-6\user-service\.azure\default\.env" />
+      </option>
+    </method>
+  </configuration>
+</component>
