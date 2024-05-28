@@ -48,8 +48,6 @@ async function userLogin() {
     });
     router.push("/list");
   } catch (error) {
-    // console.error(error.response.data);
-    // TODO: 优化错误提示
     ElMessage.error({message: "用户名或密码错误", grouping: true});
   }
 }
